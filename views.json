@@ -1,13 +1,32 @@
 [
   {
-    "name": "week",
-    "title": "This week",
-    "subtitle": "License Review for Claude Code: what needs attention, rendered by npm run view",
+    "name": "release-desk",
+    "title": "Release review desk",
+    "subtitle": "Read-only evidence checks. Synthetic data in the demo.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Release readiness",
+        "sql": "select project,version,owner,target_date,components,blocked_components,open_tasks,readiness from release_readiness order by target_date"
+      }
+    ]
+  },
+  {
+    "name": "license-evidence",
+    "title": "Licence evidence queue",
+    "sections": [
+      {
+        "title": "Reviews needing evidence",
+        "sql": "select project,release,name,effective_license,reviewer,valid_until,blockers from component_checks where cardinality(blockers)>0 order by project,release,name"
+      }
+    ]
+  },
+  {
+    "name": "follow-ups",
+    "title": "Review follow-ups",
+    "sections": [
+      {
+        "title": "Open tasks",
+        "sql": "select project,release,title,owner,due,days_overdue from task_queue where status='open' order by due"
       }
     ]
   }

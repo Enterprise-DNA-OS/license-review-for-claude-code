@@ -1,11 +1,64 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "release-review",
+    "title": "Release review pack",
+    "for_each": "select r.id,p.name||' '||r.version as name from releases r join projects p on p.id=r.project_id order by name",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Release readiness",
+        "layout": "record",
+        "sql": "select project,version,owner,target_date,distribution,source_created,readiness,blockers,signed_by from release_readiness where id=$1",
+        "note": "Draft evidence pack. Checks cover recorded evidence, not legal certification or software security."
+      },
+      {
+        "title": "Components",
+        "sql": "select name,version,effective_license,reviewer,valid_until,blockers from component_checks where release_id=$1 order by name"
+      },
+      {
+        "title": "Decisions",
+        "sql": "select rv.actor,rv.decision,rv.reason,rv.evidence,rv.created_at from reviews rv join components c on c.id=rv.component_id where c.release_id=$1 order by rv.created_at"
+      }
+    ]
+  },
+  {
+    "name": "attribution",
+    "title": "Attribution evidence draft",
+    "for_each": "select r.id,p.name||' '||r.version as name from releases r join projects p on p.id=r.project_id order by name",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Status",
+        "layout": "record",
+        "sql": "select project,version,readiness,blockers from release_readiness where id=$1",
+        "note": "DRAFT. Verify original source files and obligations before distribution. Demo evidence is fictional."
+      },
+      {
+        "title": "Recorded texts and notices",
+        "sql": "select c.name,c.version,c.effective_license,c.blockers,rv.copyright_text,rv.license_text,rv.notice_text,rv.change_notice from component_checks c left join reviews rv on rv.id=c.review_id where c.release_id=$1 order by c.name"
+      }
+    ]
+  },
+  {
+    "name": "handover",
+    "title": "Licence review handover",
+    "for_each": "select r.id,p.name||' '||r.version as name from releases r join projects p on p.id=r.project_id order by name",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Accountability",
+        "layout": "record",
+        "sql": "select project,version,owner,target_date,readiness from release_readiness where id=$1"
+      },
+      {
+        "title": "Follow-up work",
+        "sql": "select title,owner,due,status,resolution from tasks where release_id=$1 order by due"
+      },
+      {
+        "title": "Sign-off history",
+        "sql": "select actor,reason,created_at from signoffs where release_id=$1 order by created_at",
+        "note": "A later component review, expiry or new task can invalidate a prior sign-off. Check current readiness."
+      }
     ]
   }
 ]

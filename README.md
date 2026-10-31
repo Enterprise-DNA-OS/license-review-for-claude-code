@@ -1,12 +1,6 @@
-<h1 align="center">License Review for Claude Code</h1>
+# License Review for Claude Code
 
-<p align="center">
-  <strong>The open-source license review desk that is just a database and Claude Code.</strong>
-</p>
-
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+Open-source component records, licence evidence and release reviews in a database you own. Free, MIT licensed. Built by Enterprise DNA.
 
 <!-- three-doors -->
 <table align="center">
@@ -17,99 +11,115 @@
   </tr>
 </table>
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-fossa">Instead of FOSSA</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+## What this does
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
+Import a FOSSA SPDX JSON inventory, review component licence evidence, compare releases, track overdue follow-ups and draft attribution paperwork. Current release readiness accounts for review expiry and changes after sign-off. Claude Code, Codex, OpenCode or Cursor runs the same commands.
 
----
+This is a focused replacement for the licence review desk. Component discovery, binary and snippet scanning, dependency resolution and vulnerability intelligence remain separate inputs. It is not a replacement for every FOSSA feature or a legal compliance certification.
 
-## What is this
-
-License Review for Claude Code does the job you pay FOSSA for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the FOSSA dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays FOSSA per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=fossa).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+FOSSA Business L shows US$1,656 a month billed annually, or US$19,872 a year, for 50 contributing developers and 100 projects on its [pricing selector](https://fossa.com/pricing/), checked 31 October 2026. This is a listed plan, not a customer invoice. See [research](docs/research.md).
 
 ## Quick start
-
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/license-review-for-claude-code.git
 cd license-review-for-claude-code
 npm install
+npm test
 npm run demo
+npm run licenses -- releases
+npm run licenses -- review-queue
+npm run view
+npm run docs
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
-
-### Use it with your own Postgres or Supabase
-
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+Node 20 or later. With no DATABASE_URL, PGlite persists locally in .data/db. For PostgreSQL 15 or later, set DATABASE_URL to your private empty database and run npm run migrate. The same SQL works on both engines. Do not seed a production database. Demo data is fictional and deliberately includes unknown licences, expired reviews, old inventories and overdue follow-ups.
 
 ## The commands
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+One CLI: `npm run licenses -- help`. Human tables are the default, `--json` returns exact records. Select by a case-insensitive name or UUID prefix. Ambiguous names list candidates and exit 1. Release names use `Project / version`. Database writes require `--actor` and accept `--dry-run`.
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+- `/activity`: Read the recorded change history.
+- `/add-project`: Add a software product and accountable owner.
+- `/add-task`: Log a licence follow-up with an owner and deadline.
+- `/attention`: Start the day with release blockers and overdue follow-ups.
+- `/changes`: Compare versions and licence declarations in two releases.
+- `/close-task`: Close follow-up work with its resolution.
+- `/compliance`: Check recorded evidence against cited licence conditions and house policy.
+- `/components`: Read the imported component register.
+- `/customise`: Change a field or review rule with a tested migration.
+- `/draft-attribution`: Draft attribution texts with visible missing-evidence markers.
+- `/draft-review`: Draft the release review pack without sending.
+- `/export`: Export every record and original imported inventory to a private file.
+- `/help`: Show licence review commands and required flags.
+- `/import`: Import a FOSSA SPDX JSON inventory without discarding its original content.
+- `/new-view`: Add a read-only view of the records.
+- `/notices`: Check attribution and Apache notice evidence.
+- `/overdue`: Read overdue review follow-ups and owners.
+- `/projects`: Read project owners and review dates.
+- `/release`: Read a release, its component reviews, follow-ups and sign-offs.
+- `/releases`: Read release readiness and evidence gaps.
+- `/review-component`: Record a component review supported by original files.
+- `/review-project`: Record the owner review and its next due date.
+- `/review-queue`: Review unknown licences, missing evidence and expired approvals.
+- `/sign-off`: Record an explicitly requested release evidence sign-off.
+- `/weekly-review`: Draft Monday release readiness, review queue and overdue work.
+- `/where-used`: Find a component across projects and releases.
+
+## Evidence and sign-off
+
+MIT, Apache-2.0 and BSD-3-Clause have explicit evidence checklists. Compound, custom and other licence expressions stay blocked. A reviewer records the exact licence and copyright text, a source reference, a validity date, and applicable notice or modification evidence. The program checks presence and dates, not whether an uploaded legal text is correct.
+
+A release can be signed off only when its inventory is fresh, its project review is current, every component review passes, and no follow-up is open. The sign-off reviewer must differ from the importer. Actor names are recorded labels, not authentication. Imported records and review history cannot be overwritten. A later review invalidates the sign-off fingerprint. Read [compliance.md](docs/compliance.md) before using real data.
+
+## Questions your own review desk answers
+
+These questions are backed by the shipped commands. They combine your own review dates, release history and follow-ups. They are not claims that FOSSA cannot reproduce them.
+
+1. Which releases have missing licence evidence and open follow-up work? (`npm run licenses -- releases`)
+2. Which package appears in both products, and who owns each review? (`npm run licenses -- where-used --name=demo-route-kit`)
+3. Which dependency versions or licence declarations changed since the last release? (`npm run licenses -- changes --release="Harbour Dispatch / 2.0" --against="Harbour Dispatch / 1.9"`)
+4. Which reviews have expired even though somebody approved them before? (`npm run licenses -- review-queue`)
+5. Which Apache components still need their upstream notice checked? (`npm run licenses -- notices`)
+6. Whose follow-up tasks are overdue, and by how many days? (`npm run licenses -- overdue`)
+7. Which products have passed their project review date? (`npm run licenses -- projects`)
+8. Which inventories are too old for our release policy? (`npm run licenses -- compliance`)
+9. Who signed off a release, and do its current reviews still support that decision? (`npm run licenses -- release --release="Harbour Dispatch / 2.0"`)
+10. What review decisions and follow-up changes were recorded, and by whom? (`npm run licenses -- activity`)
+
+## Your first hour: ten things to ask for
+
+1. Put our business name, logo and colours in brand.json.
+2. Show every release blocked by missing evidence.
+3. Find the component used by both products.
+4. Compare the current inventory with the previous version.
+5. Show expired approvals and the reviewer who recorded them.
+6. Draft the weekly review from readiness, evidence and overdue work.
+7. Import our supported FOSSA download with a test run first.
+8. Record the original licence and notice evidence for one component.
+9. Add our review-owner field through a tested migration.
+10. Export a complete private backup before changing a rule.
+
+## Documents and views
+
+`npm run docs` creates three branded HTML documents per release: a release review pack, attribution evidence draft and handover sheet. `npm run view` creates three read-only dashboards. The plain-text `draft-attribution`, `draft-review` and `weekly-review` commands write uniquely named files under drafts. No command sends or publishes. Inspect every attribution draft against upstream files before distribution. Demo texts cannot be used as real notices.
 
 ## Instead of FOSSA
 
-<!-- TODO(author): how to bring data across from FOSSA; link docs/replace-fossa.md -->
+The [switching guide](docs/replace-fossa.md) documents the supported SPDX JSON export, one-command import, exact mapping and reconciliation. Import preserves every package and the complete original document. File-level evidence and relationships are retained but not interpreted. Existing vendor approvals are not silently copied into new decisions. Review a real export alongside your existing process before switching.
 
-## Architecture
+## Verification and data controls
 
-```
-license-review-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+`npm test` uses an isolated temporary database and output directory. It checks migrations, seed repeatability, all CLI commands, atomic imports, ambiguity, malformed input, expiry, notice requirements, sign-off invalidation, append-only records, exports and HTML escaping. CI covers Node 20 and 22 on Windows and Ubuntu, plus PostgreSQL 16. Configured checks and observed results are reported separately.
 
-## Built for coding agents
-
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
-
-## Contributing
-
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+Database tables have row-level security and no PUBLIC privileges. The CLI operates as a trusted database owner. That owner can bypass controls, so this is not a tamper-proof audit system or a multi-user access boundary. Keep inventories, exports and drafts private. Back up the database with its native backup tools as well as the complete JSON export. [Why no front end](docs/why-no-front-end.md) explains the operating model.
 
 ## Want it installed and run for you?
 
-Enterprise DNA installs License Review for Claude Code for your business, migrates your FOSSA data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+**Omni by Enterprise DNA** brings your FOSSA records across, builds your review rules and connects your chosen scanning process. We can add a web front end, use a different stack, and operate the system with your team. One setup fee, then a retainer.
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=fossa)
-- Read more: [enterprisedna.co/omni/instead-of/fossa](https://enterprisedna.co/omni/instead-of/fossa?utm_source=github&utm_medium=readme&utm_campaign=fossa)
+[Book a 30-minute call with Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=fossa).
 
-## License
+## Licence
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+MIT. Copyright 2026 Enterprise DNA. Third-party component licences remain their owners' terms.

@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Which releases have missing licence evidence and open follow-up work?",
+    "command": "npm run licenses -- releases"
+  },
+  {
+    "question": "Which package appears in both products, and who owns each review?",
+    "command": "npm run licenses -- where-used --name=demo-route-kit"
+  },
+  {
+    "question": "Which dependency versions or licence declarations changed since the last release?",
+    "command": "npm run licenses -- changes --release=\"Harbour Dispatch / 2.0\" --against=\"Harbour Dispatch / 1.9\""
+  },
+  {
+    "question": "Which reviews have expired even though somebody approved them before?",
+    "command": "npm run licenses -- review-queue"
+  },
+  {
+    "question": "Which Apache components still need their upstream notice checked?",
+    "command": "npm run licenses -- notices"
+  },
+  {
+    "question": "Whose follow-up tasks are overdue, and by how many days?",
+    "command": "npm run licenses -- overdue"
+  },
+  {
+    "question": "Which products have passed their project review date?",
+    "command": "npm run licenses -- projects"
+  },
+  {
+    "question": "Which inventories are too old for our release policy?",
+    "command": "npm run licenses -- compliance"
+  },
+  {
+    "question": "Who signed off a release, and do its current reviews still support that decision?",
+    "command": "npm run licenses -- release --release=\"Harbour Dispatch / 2.0\""
+  },
+  {
+    "question": "What review decisions and follow-up changes were recorded, and by whom?",
+    "command": "npm run licenses -- activity"
+  }
+]

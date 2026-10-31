@@ -1,0 +1,33 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "Fictional FOSSA export example",
+  "documentNamespace": "https://example.invalid/spdx/review-demo-1",
+  "creationInfo": {
+    "creators": [
+      "Tool: synthetic-fixture"
+    ],
+    "created": "2026-10-31T00:00:00Z"
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-fixture",
+      "name": "demo-notice-kit",
+      "versionInfo": "1.0.0",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseDeclared": "MIT",
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "Copyright 2026 Fictional Package Authors",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/demo-notice-kit@1.0.0"
+        }
+      ]
+    }
+  ],
+  "relationships": []
+}

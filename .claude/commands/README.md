@@ -1,5 +1,3 @@
-# Slash commands
+# Commands
 
-One file per recurring job. Each command tells Claude Code exactly which CLI command to run and how to present the result, so the operator never re-explains the job.
-
-Add a command every time the same ask comes twice. Frontmatter needs a `description:` line. The body is the brief.
+Read CLAUDE.md. Each command in this folder uses scripts/licenses.mjs, except customise and new-view which edit the same database and report definitions. Drafts never send.
